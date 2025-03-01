@@ -13,3 +13,6 @@ commands:
     description: Sets a location for the spawn
     aliases: setsp
     usage: /setspawn
+  back:
+    description: after going to spawn return the player to the previous location
+    usage: /back

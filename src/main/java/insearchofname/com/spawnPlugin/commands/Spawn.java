@@ -12,7 +12,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Spawn implements CommandExecutor {
+
+    private static final Map<String, Location> playerLastLocation = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -23,6 +28,11 @@ public class Spawn implements CommandExecutor {
 
         startTeleportTimer(player);
         return true;
+    }
+
+    private void storePlayerLocation(Player player) {
+        // Store the player's current location (before teleportation) in a map using their UUID as the key
+        playerLastLocation.put(player.getUniqueId().toString(), player.getLocation());
     }
 
     private void startTeleportTimer(Player player) {
@@ -51,6 +61,7 @@ public class Spawn implements CommandExecutor {
             public void run() {
                 if (countdown <= 0) {
                     // Teleport player to custom spawn
+                    storePlayerLocation(player);
                     player.teleport(customSpawnLocation);
                     Msg.send(player, "&aTeleported to spawn!");
                     cancel();
@@ -65,9 +76,16 @@ public class Spawn implements CommandExecutor {
                 }
 
                 // Send countdown message
-                Msg.send(player, "&eTeleporting in: &9" + countdown + " seconds. &eDo not move!");
+                Msg.send(player, "&eTeleporting to spawn in: &9" + countdown + " seconds. &eDo not move!");
                 countdown--;
             }
         }.runTaskTimer(SpawnPlugin.getPlugin(), 0L, 20L); // Runs every 20 ticks (1 second)
+    }
+
+    public static Location getLastLocation(Player player) {
+        return playerLastLocation.get(player.getUniqueId().toString());
+    }
+    public static void removeLastLocation(Player player) {
+        playerLastLocation.remove(player.getUniqueId().toString());
     }
 }

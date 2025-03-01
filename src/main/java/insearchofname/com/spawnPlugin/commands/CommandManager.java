@@ -6,5 +6,6 @@ public class CommandManager {
     public void registerCommands() {
         plugin.getCommand("spawn").setExecutor(new Spawn());
         plugin.getCommand("setspawn").setExecutor(new SetSpawn());
+        plugin.getCommand("back").setExecutor(new Back());
     }
 }
