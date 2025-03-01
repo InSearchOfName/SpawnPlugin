@@ -1,0 +1,15 @@
+name: SpawnPlugin
+version: 1.0.0
+main: insearchofname.com.spawnPlugin.SpawnPlugin
+description: An spawn plugin
+author: InSearchOfName
+api-version: '1.21'
+commands:
+  spawn:
+    description: brings player back to spawn
+    aliases: sp
+    usage: /spawn
+  setspawn:
+    description: Sets a location for the spawn
+    aliases: setsp
+    usage: /setspawn
